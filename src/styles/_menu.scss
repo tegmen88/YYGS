@@ -1,0 +1,220 @@
+/* Bakgrund - Täcker hela skärmen */
+.menu-container {
+  background-image: url('../assets/menu-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #8ed8bf;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Menyinnehåll */
+.menu-content {
+  max-width: 95%;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background-color: #605858;
+  color: white;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Enskild artikel */
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+/* Alla matartiklar */
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Matartiklar - Vänsterjusterade */
+.menu-item .food {
+  flex: 1;
+  text-align: left;
+}
+
+/* Prisartiklar - Högerjusterade */
+.menu-item .price {
+  text-align: right;
+  font-weight: bold;
+}
+
+
+.menu-item:hover {
+  background-color: #716a6a;
+  //transform: scale(1.02);
+}
+
+/* Ingredienser för Matartiklar */
+.ingredients-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    gap: 0.3125rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.1875rem;
+  }
+}
+
+.ingredient-item {
+  padding: 0.3125rem 0.625rem;
+  background-color: #F1F0EC3D;
+  color: white;
+  border-radius: 0.3125rem;
+  font-size: 0.9rem;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 0.1875rem 0.375rem;
+  }
+}
+
+/* Flexlayout: Dippsåser */
+.dipso-lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9375rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    gap: 0.625rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.3125rem;
+  }
+}
+
+.dip-list-item {
+  padding: 0.3125rem 0.625rem;
+  background-color: #F1F0EC3D;
+  color: white;
+  border-radius: 0.3125rem;
+  font-size: 0.9rem;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 0.1875rem 0.375rem;
+  }
+}
+
+/* Flexlayout: Läsk */
+.dips-lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9375rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    gap: 0.625rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.3125rem;
+  }
+}
+
+.dips-lists li {
+  padding: 0.3125rem 0.625rem;
+  background-color: #F1F0EC3D;
+  color: white;
+  border-radius: 0.3125rem;
+  font-size: 0.9rem;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 0.1875rem 0.375rem;
+  }
+}
+
+.dips-lists li:hover, .dip-list-item:hover {
+  background-color: #353131;
+}
+
+/* Tar bort standardstilar från knappen */
+.btn, .btn-menu {
+  all: unset;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-menu:hover {
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Lista över artiklar */
+.menu-category ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Matarrtikel */
+.menu-item .food h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Ingredienser */
+.menu-item .food p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Sektion för prisartiklar (högerjusterad) */
+.menu-item .price {
+  text-align: right;
+  min-width: 70px; /* Tillräckligt utrymme för priset */
+  font-size: 1rem;
+  font-weight: bold;
+}

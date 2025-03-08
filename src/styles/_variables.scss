@@ -1,0 +1,63 @@
+// Färg-, font- och layoutvariabler
+
+
+// Färger
+$primary-color: #8ed8bf;
+$secondary-color: #605858;
+$text-color-light: #ffffff;
+$text-color-dark: #333333;
+$background-color-light: #f1f0ec3d;
+$background-color-dark: #3531313d;
+
+// Typsnitt
+$font-family: 'Fira Sans', sans-serif;
+
+// Layout
+$border-radius-small: 0.25rem;
+$border-radius-medium: 0.5rem;
+$transition-speed: 0.2s;
+
+// Shadow
+$box-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+$box-shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+// ============================
+// Färg-, font- och layoutvariabler
+// ============================
+
+// Färger
+$primary-color: #8ed8bf;
+$secondary-color: #605858;
+$text-color: #333333; // Textfärg för mörk bakgrund
+$text-color-light: #ffffff;
+$h3-text-color: #666666; // Färg för underrubriker (h3)
+$background-color: #f9f9f9; // Bakgrundsfärg för container
+$background-color-light: #f1f0ec3d;
+$background-color-dark: #3531313d;
+$background-color-brown: #605858;
+$button-primary-bg: #4CAF50; // Färg för primär knapp
+$button-primary-hover: #388E3C; // Hover-effekt för primär knapp
+$button-secondary-border: #cccccc; // Gränsfärg för sekundär knapp
+$button-secondary-hover-bg: #eeeeee; // Hover-bakgrundsfärg för sekundär knapp
+$button-secondary-hover-text: #000000; // Hover-textfärg för sekundär knapp
+
+// Typsnitt
+$font-family: 'Fira Sans', sans-serif;
+$font-size-large: 2rem; // Stor text, t.ex. h1
+$font-size-medium: 1.25rem; // Textstorlek för underrubriker, t.ex. h3
+$font-size-base: 1rem; // Basstorlek
+
+// Layout
+$gap: 1rem; // Standard mellanrum för flexbox
+$padding-small: 0.5rem;
+$padding-medium: 1rem;
+$padding-large: 2rem;
+$button-width: 200px; // Bredd för knappar
+$button-max-width: 300px; // Maxbredd för knappar
+$border-radius: 0.5rem;
+$border-radius-small: 0.25rem;
+$border-radius-medium: 0.5rem;
+$transition-speed: 0.2s; // Animationsspeed
+
+// Shadow
+$box-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+$box-shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
