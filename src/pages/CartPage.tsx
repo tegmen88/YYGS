@@ -5,15 +5,62 @@ import { RootState } from "../store/store.ts";
 import {useNavigate} from "react-router-dom";
 import { useState } from 'react';
 import {getApiKey, placeOrder} from '../api/api.ts';
-import Navbar from '../comps/Navbar.tsx';
+import Navbar from "../comps/Navbar.tsx";
 
 const CartPage = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state: RootState) => state.cart.items);
-
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleTakeMyMoney = async () => {
+        if (cart.length === 0) {
+            setError("Varukorgen är tom – lägg till några produkter först.");
+            return;
+        }
 
+        setError(null);
+        setLoading(true);
+
+        try {
+            const tenant = "my-foodtruck"; // Statisk tenant - hårdkodat
+            const apiKey = await getApiKey();
+            const items = cart.map((item) => Number(item.id)); // Säkerställ att IDs är nummer
+
+            // Validering
+            if (!tenant || typeof tenant !== "string") {
+                throw new Error("Felaktig tenant.");
+            }
+            if (!apiKey || typeof apiKey !== "string") {
+                throw new Error("API-nyckel saknas.");
+            }
+            if (!items || items.length === 0) {
+                throw new Error("Inga produkter att beställa.");
+            }
+
+            // Skicka korrekt data till API:et
+            const response = await placeOrder(tenant, apiKey, items);
+
+            console.log("Beställning genomförd:", response);
+
+            // Navigera till OrderPage efter en lyckad order
+            //navigate("/order");
+            navigate("/order", {
+                state: {
+                    orderNr: response.order.id,
+                    eta: response.order.eta,
+                    orderValue: response.order.orderValue,
+                    items: response.order.items,
+                },
+            });
+
+        } catch (err: any) {
+            console.error("Fel vid beställning:", err);
+            setError(err.message || "Ett oväntat fel inträffade.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     // Beräkna totalpriset

@@ -2,6 +2,7 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {CartState, ICartActionPayload } from "../interfaces/CartInterfaces.ts";
+import {RootState} from "./store.ts";
 
 const initialState: CartState = {
     items: [],
@@ -59,6 +60,8 @@ const cartSlice = createSlice({
 });
 
 // Selectors (lägg här under reducer-logiken)
-
+export const selectCartItems = (state: RootState) => state.cart.items; // Alla artiklar
+export const selectCartCount = (state: RootState) =>
+    state.cart.items.reduce((count, item) => count + item.quantity, 0); // Totalt antal artiklar
 export const { addToCart, removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;
