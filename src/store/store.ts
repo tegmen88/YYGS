@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import menuReducer from './menuSlice';
+import cartReducer from './cartSlice';
 
 // Persist configuration
 const persistConfig = {
@@ -13,6 +14,8 @@ const persistConfig = {
 // Combine reducers
 const rootReducer = combineReducers({
     menu: menuReducer,
+    cart: cartReducer,
+
     // Du kanlägga till flera reducer som cart och receipt
 });
 

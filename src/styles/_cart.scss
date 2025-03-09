@@ -1,0 +1,99 @@
+@use './variables';
+
+.cart-container {
+  background-color: variables.$background-color-light;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  background-color: variables.$text-color-light;
+  font-size: 1rem;
+}
+
+.cart-item-name {
+  text-align: left;
+  flex: 2;
+  font-weight: bold;
+  color: variables.$text-color-dark;
+}
+
+.cart-item-price {
+  text-align: right;
+  flex: 1;
+  font-weight: bold;
+  color: variables.$text-color-dark;
+}
+
+.cart-item-buttons {
+  display: flex;
+  gap: 0.5rem;
+
+  button {
+    background-color: #ddd;
+    color: variables.$text-color-dark;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: variables.$border-radius-small;
+    cursor: pointer;
+    font-size: 0.9rem;
+
+    &:hover {
+      background-color: #bbb;
+      transition: background-color variables.$transition-speed ease;
+    }
+
+    &:active {
+      background-color: #a8a8a8;
+    }
+  }
+}
+
+.totalprice-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: variables.$background-color-dark;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: variables.$border-radius-medium;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: variables.$text-color-dark;
+  box-shadow: variables.$box-shadow-light;
+}
+
+.totalprice-item span:first-child {
+  text-align: left;
+  flex: 1;
+}
+
+.totalprice-item span:last-child {
+  text-align: right;
+}
+
+.btn-cart {
+  display: block;
+  width: 100%;
+  background-color: black;
+  color: variables.$text-color-light;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #333;
+    transition: background-color variables.$transition-speed ease;
+  }
+
+  &:active {
+    background-color: #555;
+  }
+}
