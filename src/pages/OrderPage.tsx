@@ -102,8 +102,13 @@ const OrderPage = () => {
         <>
             <div className='order-container'>
                 {/* Vänsterlogga */}
-                <img className="logo-left" src="./public/logo-trans.svg" alt="Logo Left" />
-
+                <img
+                    className="logo-left"
+                    src="./public/logo-trans.svg"
+                    alt="Logo Left"
+                    onClick={() => navigate("/menu")}
+                    style={{ cursor: "pointer" }}
+                />
                 <figure>
                     <img src="../public/boxtop.png" alt="Placeholder" />
                 </figure>

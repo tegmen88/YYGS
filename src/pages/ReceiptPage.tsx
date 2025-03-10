@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchReceipt } from "../api/api.ts";
 import '../styles/_receipt.scss';
+import { useNavigate } from 'react-router-dom';
 
 const ReceiptPage = () => {
     const [receipt, setReceipt] = useState<any>(null); // Kvitto-data
     const [error, setError] = useState<string | null>(null); // Fel-meddelande
     const location = useLocation();
     const { orderId, apiKey } = location.state || {}; // Order-ID och API-nyckel
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!orderId || !apiKey) {
@@ -44,7 +46,13 @@ const ReceiptPage = () => {
 
     return (
         <div className="body-background">
-            <img className="logo-left" src="./public/logo-trans.svg" alt="Logo Left" />
+            <img
+                className="logo-left"
+                src="./public/logo-trans.svg"
+                alt="Logo Left"
+                onClick={() => navigate("/menu")}
+                style={{ cursor: "pointer" }}
+            />
 
             <div className="receipt-container">
                 {/* Header */}
