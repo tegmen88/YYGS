@@ -1,0 +1,64 @@
+@use '../styles/variables' as variables;
+@use '../styles/navbar' as navbar;
+
+.order-container {
+  background-color: variables.$background-color-brown;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$gap;
+  padding: 2rem;
+  min-height: 100vh;
+  text-align: center;
+
+  figure {
+    margin: 0;
+  }
+
+  h1 {
+    color: variables.$text-color-light;
+    font-size: variables.$font-size-large;
+    margin: 0;
+  }
+
+  h3 {
+    color: variables.$text-color-light;
+    font-size: variables.$font-size-medium;
+    margin: 0.5rem 0;
+  }
+
+  button {
+    width: calc(100% - 2rem);
+    max-width: 400px;
+    padding: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: #353131;
+    font-weight: bold;
+    border-radius: variables.$border-radius-medium;
+    display: block;
+    transition: background-color variables.$transition-speed, color variables.$transition-speed;
+  }
+
+  button:first-of-type {
+    background-color: #353131;
+    color: variables.$text-color-light;
+    border: none;
+
+    &:hover {
+      background-color: #6e6262;
+    }
+  }
+
+  button:last-of-type {
+    background-color: #605858;
+    color: variables.$text-color-light;
+    border: 1px white solid;
+
+    &:hover {
+      background-color: #7f6f6f;
+    }
+  }
+}

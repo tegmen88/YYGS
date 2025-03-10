@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchMenu } from '../api/api.ts';
 import { IMenuItem } from '../interfaces/MenuItemInterface';
 import '../styles/_menu.scss';
+import {addToCart} from "../store/cartSlice.ts";
 // import AddIcon from '@mui/icons-material/Add';
 import { useDispatch } from 'react-redux';
 import Navbar from "../comps/Navbar.tsx";
@@ -9,9 +10,9 @@ import Navbar from "../comps/Navbar.tsx";
 const MenuPage: React.FC = () => {
     const dispatch = useDispatch();
 
-    const [menu, setMenu] = useState<IMenuItem[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const [menu, setMenu] = useState<IMenuItem[]>([]); // State för menyn
+    const [loading, setLoading] = useState<boolean>(true); // För laddningsindikation
+    const [error, setError] = useState<string | null>(null); // För felhantering
 
     // Funktion för att ladda menyn från API
     useEffect(() => {
@@ -20,7 +21,7 @@ const MenuPage: React.FC = () => {
                 setLoading(true);
                 const menuItems = await fetchMenu();
                 if (menuItems && menuItems.items) {
-                    setMenu(menuItems.items); // Saving menydata från API
+                    setMenu(menuItems.items); // Spara menydata från API
                 } else {
                     throw new Error('Felaktigt API-svar: "items" saknas.');
                 }
@@ -34,21 +35,28 @@ const MenuPage: React.FC = () => {
         loadMenu();
     }, []);
 
-    // Function to att articles to the cart
+    // Funktion lägga artiklar i varukorgen
     const handleAddToCart = (item: IMenuItem) => {
-
+        dispatch(
+            addToCart({
+                id: item.id,
+                name: item.name,
+                price: item.price || 0,
+                quantity: 1
+            })
+        );
 
         console.log(item);
 
     };
 
-    // Show loading message
+    // Visa laddningsmeddelande
     if (loading) return <p>Laddar menyn...</p>;
 
-    // Show error message
+    // Visa felmeddelande
     if (error) return <p>Fel vid laddning av menyn: {error}</p>;
 
-    // Separating data based on its types
+    // Separera data baserat på typer
     const foodItems = menu.filter((item) => item.type === 'wonton');
     const dipItems = menu.filter((item) => item.type === 'dip');
     const drinkItems = menu.filter((item) => item.type === 'drink');
@@ -120,15 +128,15 @@ const MenuPage: React.FC = () => {
                             <li
                                 key={item.id}
                                 className="dip-list-item"
-                                onClick={() => handleAddToCart(item)}
+                                onClick={() => handleAddToCart(item)} // Klick på hela listobjektet
                             >
                                 <p>{item.name}</p>
 
                                 <button
                                     className='btn btn-menu'
                                     onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleAddToCart(item);
+                                        e.stopPropagation(); // Förhindra att klickhändelsen bubblar upp
+                                        handleAddToCart(item); // Hantera klick på enbart knappen
                                     }}
                                 ></button>
                             </li>

@@ -1,0 +1,157 @@
+// Styling för kvitto
+@use '../styles/variables' as variables;
+
+/* Global för bakgrunden */
+/* Global för bakgrunden */
+.body-background {
+  background-color: variables.$background-color-brown;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding-top: 20px;
+}
+
+/* Stil för logga i övre vänstra hörnet */
+.logo-left {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  width: 100px;
+  height: auto;
+
+  @media (max-width: 768px) {
+    width: 50px;
+    top: 10px;
+    left: 10px;
+  }
+}
+
+/* Container för kvitto */
+.receipt-container {
+  width: 90%;
+  max-width: 700px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+  margin-top: 60px;
+}
+
+/* Centrerad logga i header */
+.receipt-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo-top {
+  width: 100px;
+  height: auto;
+}
+
+// Rubrik och ordernummer
+.receipt-info {
+  text-align: center;
+  margin-bottom: 30px;
+
+  .receipt-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .order-number {
+    font-size: 18px;
+    color: #555;
+  }
+}
+
+button > receipt-btn {
+  width: calc(100% - 2rem);
+  max-width: 400px;
+  padding: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: #353131;
+  font-weight: bold;
+  border-radius: variables.$border-radius-medium;
+  display: block;
+  transition: background-color variables.$transition-speed, color variables.$transition-speed;
+}
+
+// Lista med matartiklar
+.receipt-items {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+
+    .item-name {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .item-price {
+      font-weight: bold;
+      color: #000;
+    }
+
+    .item-details {
+      font-size: 14px;
+      color: #666;
+      margin-top: 5px;
+    }
+  }
+}
+
+// Grå ruta för totalsumma
+.receipt-summary {
+  background-color: #f7f7f7;
+  padding: 15px;
+  border-radius: 8px;
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+
+    .total-label {
+      color: #444;
+    }
+
+    .total-amount {
+      color: #000;
+    }
+  }
+
+  .tax-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #666;
+
+    .tax-label {
+      margin-right: 10px;
+    }
+  }
+}

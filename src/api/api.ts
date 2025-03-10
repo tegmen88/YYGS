@@ -3,13 +3,11 @@ import { IMenuItem } from '../interfaces/MenuItemInterface.ts';
 let API_KEY = '';
 const API_URL = 'https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com';
 
-// Function for fetching API key
+// Hämta API-nyckeln
 export const getApiKey = async (): Promise<string> => {
     try {
-
-        // Logging as API key is fetched and reuse it
         if (API_KEY) {
-            console.log('API-nyckeln återanvänds:', API_KEY);
+            console.log('Återanvänder API-nyckeln:', API_KEY);
             return API_KEY;
         }
 
@@ -18,48 +16,40 @@ export const getApiKey = async (): Promise<string> => {
             headers: { 'Content-Type': 'application/json' },
         });
 
-
-        // Kontrollera HTTP-status
         if (!response.ok) {
             throw new Error(
                 response.status === 401
-                    ? 'Access key saknas eller är ogiltig.'
+                    ? 'Ogiltig eller saknad nyckel.'
                     : response.status === 404
-                        ? 'Endpointen /keys hittades inte.'
-                        : `Misslyckades att hämta API-nyckel.`
+                        ? 'Endpointen saknas.'
+                        : `Fel vid hämtning av nyckel.`
             );
         }
 
-        // Reading and logg the server's repsone
         const data = await response.json();
-        console.log('Serverns svar:', data);
+        console.log('Svar från servern:', data);
 
-        // Nu hämtar vi nyckeln från `key`-propertyn i JSON-objektet
-        if (!data || !data.key) {
-            throw new Error('Svaret från servern saknade en giltig API-nyckel.');
+        if (!data?.key) {
+            throw new Error('Nyckel saknas i svaret.');
         }
 
         const apiKey = data.key;
-        console.log('API-nyckeln hämtades:', apiKey);
+        console.log('Nyckel hämtad:', apiKey);
         return apiKey;
     } catch (error) {
-        console.error('Fel vid hämtning av API-nyckel:', error);
+        console.error('Fel vid hämtning av nyckel:', error);
         throw error;
     }
 };
 
-// Funktion för att hämta menyn
+// Hämta meny
 export const fetchMenu = async (): Promise<{ items: IMenuItem[] }> => {
     try {
-
         const menuEndpoint = `${API_URL}/menu`;
-
-        // Hämta API-nyckeln från en säker källa (eller använd en fix nyckel för nu)
         const apiKey = 'yum-3PqATVLPR8zw2xRn';
         console.log('Använder API-nyckel:', apiKey);
-        console.log('Hämtar meny från URL:', menuEndpoint);
+        console.log('Hämtar meny från:', menuEndpoint);
 
-        // Skicka förfrågan till menyns endpoint
         const response = await fetch(menuEndpoint, {
             method: 'GET',
             headers: {
@@ -68,44 +58,110 @@ export const fetchMenu = async (): Promise<{ items: IMenuItem[] }> => {
             },
         });
 
-        console.log('Response status:', response.status);
-
-        // Kontroll om förfrågan lyckades
         if (!response.ok) {
-            // Logga felmeddelande för debugging
             const errorText = await response.text();
-            console.error('Serverns felmeddelande:', errorText);
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            console.error('Serverfel:', errorText);
+            throw new Error(`HTTP-fel! Status: ${response.status}`);
         }
 
-        // Returnera JSON-data (fetch-konverterar JSON automatiskt)
         const data = await response.json();
         console.log('Hämtad menydata:', data);
 
-        // Returnera det bearbetade API-svaret
         return data;
-
     } catch (error) {
         console.error('Fel vid hämtning av meny:', error);
         throw error;
     }
 };
 
-// Skapa tenant frö att slutföra beställningen och placeorder
-export const createTenant = async () => {
+// Skapa tenant
+export const createTenant = async (apiKey: string, tenantName: string): Promise<void> => {
+    try {
+        const response = await fetch(`${API_URL}/tenant`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-zocom": apiKey,
+            },
+            body: JSON.stringify({ name: tenantName }),
+        });
 
+        if (!response.ok) {
+            throw new Error(`Kunde inte skapa tenant. Status: ${response.status}`);
+        }
+
+        console.log("Tenant skapad:", response, tenantName, response.status);
+    } catch (error) {
+        console.error("Fel vid skapande av tenant:", error);
+        throw error;
+    }
 };
 
-// Funktion för att lägga en orderbeställning
-export const placeOrder = async () => {
+// Lägg order
+export const placeOrder = async (tenant: string, apiKey: string, items: number[]) => {
+    if (!tenant) throw new Error("Tenant saknas.");
+    if (!apiKey) throw new Error("API-nyckel saknas.");
+    if (!Array.isArray(items) || items.length === 0) {
+        throw new Error("Items måste vara en icke-tom array.");
+    }
 
+    try {
+        const endpoint = `${API_URL}/${tenant}/orders`;
+        console.log("Anropar endpoint:", endpoint);
 
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-zocom": apiKey,
+            },
+            body: JSON.stringify({ items }),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Fel vid orderläggning. Status: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log("Order lagd:", data);
+
+        return data;
+    } catch (error) {
+        console.error("Fel vid orderläggning:", error);
+        throw error;
+    }
 };
 
+// Hämta kvitto
+export const fetchReceipt = async (orderId: string, apiKey: string): Promise<any> => {
+    try {
+        if (!orderId) throw new Error("Order ID saknas.");
 
+        const receiptEndpoint = `${API_URL}/receipts/${orderId}`;
+        console.log("Hämtar kvitto från:", receiptEndpoint);
 
+        const response = await fetch(receiptEndpoint, {
+            method: "GET",
+            headers: {
+                "x-zocom": apiKey,
+                Accept: "application/json",
+            },
+        });
 
-// Funktion för att hämta ett kvitto baserat på orderId
-export const fetchReceipt = async () => {
+        if (!response.ok) {
+            throw new Error(
+                response.status === 404
+                    ? "Kvitto hittades inte."
+                    : `Fel vid hämtning av kvitto. Status: ${response.status}`
+            );
+        }
 
+        const data = await response.json();
+        console.log("Kvitto hämtat:", data);
+        return data;
+    } catch (error) {
+        console.error("Fel vid hämtning av kvitto:", error);
+        throw error;
+    }
 };

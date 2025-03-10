@@ -1,4 +1,4 @@
-import './App.css'
+import './styles/_global.scss'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MenuPage from "./pages/MenuPage.tsx";
 import CartPage from "./pages/CartPage.tsx";

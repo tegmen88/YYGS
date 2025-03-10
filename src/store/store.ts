@@ -1,39 +1,40 @@
+// Redux Store-konfiguration
+
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import menuReducer from './menuSlice';
 import cartReducer from './cartSlice';
+import orderReducer from './orderSlice';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // Använder localStorage
 
-// Persist configuration
+// Persist-inställningar
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['menu'], // Persist 'menu' - save the menu state
+    whitelist: ['cart'], // Bara cart sparas
 };
 
-// Combine reducers
+// Slå ihop reducers
 const rootReducer = combineReducers({
     menu: menuReducer,
     cart: cartReducer,
-
-    // Du kanlägga till flera reducer som cart och receipt
+    order: orderReducer,
 });
 
-// Persisted reducer
+// PersistReducer med inställningarna
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Configure store
+// Konfigurera store
 export const store = configureStore({
-    reducer: persistedReducer, // Persisted reducers
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-            serializableCheck: false, // Fix persist issue
+            serializableCheck: false, // Hanterar redux persist
         }),
 });
 
-// Persistor for storage
+// Skapa persistor
 export const persistor = persistStore(store);
 
-// Export state and dispatch types
-export type RootState = ReturnType<typeof store.getState>; // State type
-export type AppDispatch = typeof store.dispatch; // Dispatch type
+// Exportera typer
+export type RootState = ReturnType<typeof store.getState>;
