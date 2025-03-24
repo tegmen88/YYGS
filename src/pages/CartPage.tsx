@@ -2,9 +2,9 @@ import '../styles/_cart.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, addToCart } from '../store/cartSlice';
 import { RootState } from "../store/store.ts";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
-import {getApiKey, placeOrder} from '../api/api.ts';
+import { getApiKey, placeOrder } from '../api/api.ts';
 import Navbar from "../comps/Navbar.tsx";
 
 const CartPage = () => {
@@ -24,9 +24,13 @@ const CartPage = () => {
         setLoading(true);
 
         try {
-            const tenant = "my-foodtruck"; // Statisk tenant - hårdkodat
+            const tenant = "my-foodtruck";
             const apiKey = await getApiKey();
-            const items = cart.map((item) => Number(item.id)); // Säkerställ att IDs är nummer
+
+            // API kräver ENDAST en array med ID:n!
+            const items = cart.flatMap((item) =>
+                Array(item.quantity).fill(Number(item.id))
+            );
 
             // Validering
             if (!tenant || typeof tenant !== "string") {
@@ -39,13 +43,11 @@ const CartPage = () => {
                 throw new Error("Inga produkter att beställa.");
             }
 
-            // Skicka korrekt data till API:et
             const response = await placeOrder(tenant, apiKey, items);
 
             console.log("Beställning genomförd:", response);
 
-            // Navigera till OrderPage efter en lyckad order
-            //navigate("/order");
+            // Navigera till OrderPage efter lyckad orderbeställning
             navigate("/order", {
                 state: {
                     orderNr: response.order.id,
@@ -68,7 +70,7 @@ const CartPage = () => {
 
     return (
         <div className='cart-container'>
-            <Navbar/>
+            <Navbar />
             <h1 className='test'>Din varukorg</h1>
 
             {cart.length > 0 ? (
@@ -112,7 +114,7 @@ const CartPage = () => {
                 <p>Varukorgen är tom.</p>
             )}
 
-            {/* Take my money btn - place order */}
+            {/* Take my money btn */}
             <button className='btn-cart' onClick={handleTakeMyMoney} disabled={loading}>
                 {loading ? "Bearbetar..." : "Take my money"}
             </button>
